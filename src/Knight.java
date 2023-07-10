@@ -1,5 +1,6 @@
 public class Knight extends Piece{
-    public Knight(Position position, int color){
+    public Knight(Position position, int color, Game game){
+        this.game = game;
         this.position = position;
         this.color = color;
         this.name = "Knight";
@@ -22,8 +23,8 @@ public class Knight extends Piece{
             Position to = position.add(knightMove[idx]);
             int i = position.row, j=position.column, x = to.row, y = to.column;
             if (x<0 || x>7 || y<0 || y>7) continue;
-            if (Chess.board[x][y] == null) Chess.moveable[x][y] = true;
-            else if (Chess.board[x][y].color != Chess.board[i][j].color) Chess.moveable[x][y] = true;
+            if (game.board[x][y] == null) game.moveable[x][y] = true;
+            else if (game.board[x][y].color != game.board[i][j].color) game.moveable[x][y] = true;
         }
     }
 
@@ -43,7 +44,7 @@ public class Knight extends Piece{
             Position to = position.add(knightMove[idx]);
             int x = to.row, y = to.column;
             if (x<0 || x>7 || y<0 || y>7) continue;
-            Chess.checkCheck[x][y] = true;
+            game.checkCheck[x][y] = true;
         }
     }
 }

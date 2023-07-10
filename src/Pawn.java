@@ -4,7 +4,8 @@ import java.awt.event.*;
 
 public class Pawn extends Piece {
     private static int promoteTo;
-    public Pawn(Position position, int color){
+    public Pawn(Position position, int color, Game game){
+        this.game = game;
         this.position = position;
         this.color = color;
         this.name = "Pawn";
@@ -16,31 +17,31 @@ public class Pawn extends Piece {
         this.firstMove = false;
         int i = this.position.row, j = this.position.column;
         this.position = to;
-         Chess.board[to.row][to.column] = Chess.board[i][j];
-        Chess.board[i][j] = null;
-        Chess.updateBoard();
-        Chess.updateSaveFile();
-        Chess.resetCheck();
-        Chess.whiteCheck = Chess.isCheck(WHITE);
-        Chess.resetCheck();
-        Chess.blackCheck = Chess.isCheck(BLACK);
-        Chess.resetCheck();
+        game.board[to.row][to.column] = game.board[i][j];
+        game.board[i][j] = null;
+        game.updateBoard();
+        game.updateSaveFile();
+        game.resetCheck();
+        game.whiteCheck = game.isCheck(WHITE);
+        game.resetCheck();
+        game.blackCheck = game.isCheck(BLACK);
+        game.resetCheck();
     }
 
     @Override
     public void movable() {
         if(this.color==WHITE) {
             int i=position.row, j=position.column;
-            if(Chess.board[i-1][j]==null) Chess.moveable[i-1][j] = true;
-            if(firstMove && Chess.board[i-2][j]==null) Chess.moveable[i-2][j] = true;
-            if(j>0 && Chess.board[i-1][j-1]!=null) if(Chess.board[i-1][j-1].color!=this.color) Chess.moveable[i-1][j-1]=true;
-            if(j<7 && Chess.board[i-1][j+1]!=null) if(Chess.board[i-1][j+1].color!=this.color) Chess.moveable[i-1][j+1]=true;
+            if(game.board[i-1][j]==null) game.moveable[i-1][j] = true;
+            if(firstMove && game.board[i-2][j]==null) game.moveable[i-2][j] = true;
+            if(j>0 && game.board[i-1][j-1]!=null) if(game.board[i-1][j-1].color!=this.color) game.moveable[i-1][j-1]=true;
+            if(j<7 && game.board[i-1][j+1]!=null) if(game.board[i-1][j+1].color!=this.color) game.moveable[i-1][j+1]=true;
         } else {
             int i=position.row, j=position.column;
-            if(Chess.board[i+1][j]==null) Chess.moveable[i+1][j] = true;
-            if(firstMove && Chess.board[i+2][j]==null) Chess.moveable[i+2][j] = true;
-            if(j>0 && Chess.board[i+1][j-1]!=null) if(Chess.board[i+1][j-1].color!=this.color) Chess.moveable[i+1][j-1]=true;
-            if(j<7 && Chess.board[i+1][j+1]!=null) if(Chess.board[i+1][j+1].color!=this.color) Chess.moveable[i+1][j+1]=true;
+            if(game.board[i+1][j]==null) game.moveable[i+1][j] = true;
+            if(firstMove && game.board[i+2][j]==null) game.moveable[i+2][j] = true;
+            if(j>0 && game.board[i+1][j-1]!=null) if(game.board[i+1][j-1].color!=this.color) game.moveable[i+1][j-1]=true;
+            if(j<7 && game.board[i+1][j+1]!=null) if(game.board[i+1][j+1].color!=this.color) game.moveable[i+1][j+1]=true;
         }
     }
 
@@ -65,12 +66,12 @@ public class Pawn extends Piece {
     public void movableCheck(){
         if(this.color==WHITE) {
             int i=position.row, j=position.column;
-            if(j>0) Chess.checkCheck[i-1][j-1]=true;
-            if(j<7) Chess.checkCheck[i-1][j+1]=true;
+            if(j>0) game.checkCheck[i-1][j-1]=true;
+            if(j<7) game.checkCheck[i-1][j+1]=true;
         } else {
             int i=position.row, j=position.column;
-            if(j>0) Chess.checkCheck[i+1][j-1]=true;
-            if(j<7) Chess.checkCheck[i+1][j+1]=true;
+            if(j>0) game.checkCheck[i+1][j-1]=true;
+            if(j<7) game.checkCheck[i+1][j+1]=true;
         }
     }
 }

@@ -1,5 +1,6 @@
 public class King extends Piece {
-    public King(Position position, int color){
+    public King(Position position, int color, Game game){
+        this.game = game;
         this.position = position;
         this.color = color;
         this.name = "King";
@@ -10,25 +11,25 @@ public class King extends Piece {
     public void move(Position to){
         int i=this.position.row, j=this.position.column;
         this.position = to;
-        Chess.kingPosition[color] = to;
+        game.kingPosition[color] = to;
         if(to.row<0 || to.row>7 || to.column<0 || to.column>7){
             System.out.println("Invalid Move");
             return;
         }
-        Chess.board[to.row][to.column] = Chess.board[i][j];
-        Chess.board[i][j] = null;
-        Chess.updateBoard();
-        Chess.updateSaveFile();
-        Chess.resetCheck();
-        Chess.whiteCheck = Chess.isCheck(WHITE);
-        Chess.resetCheck();
-        Chess.blackCheck = Chess.isCheck(BLACK);
-        Chess.resetCheck();
+        game.board[to.row][to.column] = game.board[i][j];
+        game.board[i][j] = null;
+        game.updateBoard();
+        game.updateSaveFile();
+        game.resetCheck();
+        game.whiteCheck = game.isCheck(WHITE);
+        game.resetCheck();
+        game.blackCheck = game.isCheck(BLACK);
+        game.resetCheck();
     }
 
     @Override
     public void movable() {
-        Chess.isCheck(color);
+        game.isCheck(color);
         Position[] kingMove = new Position[8];
         kingMove[0] = new Position(-1, -1);
         kingMove[1] = new Position(-1, 0);
@@ -43,8 +44,8 @@ public class King extends Piece {
             Position to = position.add(kingMove[idx]);
             int x = to.row, y = to.column;
             if (x<0 || x>7 || y<0 || y>7) continue;
-            if (Chess.board[x][y] == null) if (!Chess.checkCheck[x][y]) Chess.moveable[x][y] = true;
-            if (Chess.board[x][y]!=null) if(Chess.board[x][y].color != this.color && !Chess.checkCheck[x][y]) Chess.moveable[x][y] = true;
+            if (game.board[x][y] == null) if (!game.checkCheck[x][y]) game.moveable[x][y] = true;
+            if (game.board[x][y]!=null) if(game.board[x][y].color != this.color && !game.checkCheck[x][y]) game.moveable[x][y] = true;
         }
     }
 
@@ -64,7 +65,7 @@ public class King extends Piece {
             Position to = position.add(kingMove[idx]);
             int x = to.row, y = to.column;
             if(x<0 || x>7 || y<0 || y>7) continue;
-            Chess.checkCheck[x][y] = true;
+            game.checkCheck[x][y] = true;
         }
     }
 }

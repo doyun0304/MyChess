@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public abstract class Piece extends JPanel{
     public static final int WHITE = 0, BLACK = 1;
+    protected Game game;
 
     Position position;
     int color;
@@ -20,15 +21,15 @@ public abstract class Piece extends JPanel{
             System.out.println("Invalid Move");
             return;
         }
-        Chess.board[to.row][to.column] = Chess.board[i][j];
-        Chess.board[i][j] = null;
-        Chess.updateBoard();
-        Chess.updateSaveFile();
-        Chess.resetCheck();
-        Chess.whiteCheck = Chess.isCheck(WHITE);
-        Chess.resetCheck();
-        Chess.blackCheck = Chess.isCheck(BLACK);
-        Chess.resetCheck();
+        game.board[to.row][to.column] = game.board[i][j];
+        game.board[i][j] = null;
+        game.updateBoard();
+        game.updateSaveFile();
+        game.resetCheck();
+        game.whiteCheck = game.isCheck(WHITE);
+        game.resetCheck();
+        game.blackCheck = game.isCheck(BLACK);
+        game.resetCheck();
     }
 
     public abstract void movable();
